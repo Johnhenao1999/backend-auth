@@ -1,8 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import authRoutes from './routes/auth.routes.js';
-import taskRoutes from './routes/task.routes.js';
+import authRoutes from './src/routes/auth.routes.js';
+import taskRoutes from './src/routes/task.routes.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
@@ -10,7 +10,7 @@ import { fileURLToPath } from 'url';
 
 // Configurar dotenv para cargar las variables de entorno
 dotenv.config();
-
+ 
 // Obtener el nombre del archivo y el directorio actual
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -25,7 +25,7 @@ app.use(cors({
 }));
 
 // Middleware para analizar JSON
-app.use(express.json());
+app.use(express.json()); 
 
 // Middleware para analizar cookies
 app.use(cookieParser());
