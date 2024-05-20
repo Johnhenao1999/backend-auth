@@ -19,7 +19,7 @@ app.use(cors({
     credentials: true,
 }));
 
-// Middleware para analizar JSON
+// Middleware para analizar JSO N
 app.use(express.json());
 
 // Rutas de autenticación y tareas
