@@ -6,7 +6,7 @@ dotenv.config();
 
 export const connectDb = async () => {
     try {
-        await mongoose.connect(process.env.MONGODB_URI);
+        await mongoose.connect(process.env.MONGODB_URI || process.env.MONGODB_URI_LOCAL);
         console.log('Conectado correctamente a la base de datos Atlas');
     } catch (error) {
         console.error('Error al conectar a la base de datos:', error);

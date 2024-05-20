@@ -25,6 +25,8 @@ app.use(cors({
     credentials: true,
 }));
 
+
+
 // Middleware para analizar JSON
 app.use(express.json()); 
 
