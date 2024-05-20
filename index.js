@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import authRoutes from './src/routes/auth.routes.js';
 import taskRoutes from './src/routes/task.routes.js';
+import management from './src/routes/management.routes.js';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
@@ -36,6 +37,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Rutas de autenticación y tareas
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", taskRoutes);
+app.use("/api/v1", management);
 
 // Ruta raíz
 app.get('/', (req, res) => {

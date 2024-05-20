@@ -4,12 +4,12 @@ import { getTasks, getTask,getTasksAll,createTask,updateTask,deleteTask} from '.
 
 const router = Router()
 
-router.get('/tasks', authRequired, getTasks)
-router.get('/tasks-all', getTasksAll)
-router.get('/task/:id', authRequired, getTask)
-router.post('/tasks', authRequired, createTask)
-router.delete('/task/:id', authRequired, deleteTask)
-router.put('/task/:id', authRequired, updateTask)
+router.get('/salchipapas', authRequired, getTasks)
+router.get('/salchipapas-all', getTasksAll)
+router.get('/salchipapas/:id', authRequired, getTask)
+router.post('/salchipapas', authRequired, createTask)
+router.delete('/salchipapas/:id', authRequired, deleteTask)
+router.put('/salchipapas/:id', authRequired, updateTask)
 
 export default router;
 
