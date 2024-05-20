@@ -21,7 +21,6 @@ const app = express();
 
 // Configurar CORS
 app.use(cors({
-    origin: ["http://localhost:5173", "https://api-devtest-jah.vercel.app/"],
     credentials: true,
 }));
 
