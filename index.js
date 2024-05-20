@@ -34,8 +34,8 @@ app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Rutas de autenticación y tareas
-app.use("/api", authRoutes);
-app.use("/api", taskRoutes);
+app.use("/api/v1", authRoutes);
+app.use("/api/v1", taskRoutes);
 
 // Ruta raíz
 app.get('/', (req, res) => {
