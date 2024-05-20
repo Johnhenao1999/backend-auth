@@ -5,10 +5,6 @@ export const getTasks = async (req, res) => {
     res.json(task)
 }
 
-export const getTasksAll = async (req, res) => {
-    const task = await Task.find().populate('user')
-    res.json(task)
-}
 
 /* export const createTask = async (req, res) => {
     const { title, description, date } = req.body

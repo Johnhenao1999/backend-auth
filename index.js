@@ -39,7 +39,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // Rutas de autenticación y tareas
 app.use("/api/v1", authRoutes);
 app.use("/api/v1", taskRoutes);
-app.use("/api/v1", management);
+app.use("/api/v1/management", management);
 
 // Ruta raíz
 app.get('/', (req, res) => {
