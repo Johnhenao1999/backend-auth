@@ -46,7 +46,7 @@ app.get('/', (req, res) => {
 // Función para conectar a la base de datos
 const connectDb = async () => {
     try {
-        await mongoose.connect(process.env.MONGODB_URI  || 'mongodb://localhost/merndb');
+        await mongoose.connect(process.env.MONGODB_URI);
         console.log('Conectado correctamente a la base de datos');
     } catch (error) {
         console.error('Error al conectar a la base de datos:', error);
