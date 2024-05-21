@@ -40,6 +40,11 @@ export const updateStatus = async (req, res) => {
     if (!task) {
         return res.status(404).json({ message: "Task not found" })
     }
+
+    // Obtener la instancia de socket.io del servidor
+    const io = req.app.get('socketio');
+    io.emit('taskUpdated', task);
+    
     res.json(task)
 }
 

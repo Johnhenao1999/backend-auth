@@ -8,10 +8,12 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import http from 'http'; // Importar http para crear un servidor
+import { Server } from 'socket.io'; // Importar Server de socket.io
 
 // Configurar dotenv para cargar las variables de entorno
 dotenv.config();
- 
+
 // Obtener el nombre del archivo y el directorio actual
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,13 +21,14 @@ const __dirname = path.dirname(__filename);
 // Crear la aplicación Express
 const app = express();
 
+// Crear un servidor HTTP
+const server = http.createServer(app);
+
 // Configurar CORS
 app.use(cors({
     origin: ["http://localhost:5173", "https://frontend-auth-six.vercel.app", "https://admin-food-jah.vercel.app"],
     credentials: true,
 }));
-
-
 
 // Middleware para analizar JSON
 app.use(express.json()); 
@@ -44,8 +47,29 @@ app.use("/api/v1/management", management);
 // Ruta raíz
 app.get('/', (req, res) => {
     res.send('Hello from Vercel!');
-  });
-  
+});
+
+// Configuración de socket.io
+const io = new Server(server, {
+    cors: {
+        origin: ["http://localhost:5173", "https://frontend-auth-six.vercel.app", "https://admin-food-jah.vercel.app"],
+        credentials: true
+    }
+});
+
+// Escuchar eventos de conexión de socket.io
+io.on('connection', (socket) => {
+    console.log('Nuevo cliente conectado');
+    
+    socket.on('disconnect', () => {
+        console.log('Cliente desconectado');
+    });
+});
+
+// Hacer que io esté disponible globalmente para los controladores
+app.set('socketio', io);
+
+
 
 // Función para conectar a la base de datos
 const connectDb = async () => {
@@ -61,7 +85,7 @@ const connectDb = async () => {
 // Iniciar la aplicación
 const startServer = async () => {
     await connectDb();
-    app.listen(3000, () => {
+    server.listen(3000, () => {
         console.log("Server on port 3000");
     });
 };
