@@ -46,27 +46,6 @@ app.get('/', (req, res) => {
     res.send('Hello from Vercel!');
 });
 
-// Configuración de socket.io
-const server = http.createServer(app); // Usar la instancia de http.Server con Express
-const io = new Server(server, {
-    cors: {
-       origin: "*",
-        credentials: true
-    }
-});
-
-
-// Escuchar eventos de conexión de socket.io
-io.on('connection', (socket) => {
-    console.log('Nuevo cliente conectado');
-    
-    socket.on('disconnect', () => {
-        console.log('Cliente desconectado');
-    });
-});
-
-// Hacer que io esté disponible globalmente para los controladores
-app.set('socketio', io);
 
 // Función para conectar a la base de datos
 const connectDb = async () => {
