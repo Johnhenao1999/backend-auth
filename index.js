@@ -21,9 +21,6 @@ const __dirname = path.dirname(__filename);
 // Crear la aplicación Express
 const app = express();
 
-// Crear un servidor HTTP
-const server = http.createServer(app);
-
 // Configurar CORS
 app.use(cors({
     origin: ["http://localhost:5173", "https://frontend-auth-six.vercel.app", "https://admin-food-jah.vercel.app"],
@@ -50,6 +47,7 @@ app.get('/', (req, res) => {
 });
 
 // Configuración de socket.io
+const server = http.createServer(app); // Usar la instancia de http.Server con Express
 const io = new Server(server, {
     cors: {
         origin: ["http://localhost:5173", "https://frontend-auth-six.vercel.app", "https://admin-food-jah.vercel.app"],
@@ -68,8 +66,6 @@ io.on('connection', (socket) => {
 
 // Hacer que io esté disponible globalmente para los controladores
 app.set('socketio', io);
-
-
 
 // Función para conectar a la base de datos
 const connectDb = async () => {
