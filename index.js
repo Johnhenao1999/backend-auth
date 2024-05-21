@@ -23,14 +23,14 @@ const app = express();
 
 // Configurar CORS
 app.use(cors({
-    origin: ["http://localhost:5173", "https://frontend-auth-six.vercel.app", "https://admin-food-jah.vercel.app"],
+    origin: "*",
     credentials: true,
 }));
 
 // Middleware para analizar JSON
 app.use(express.json()); 
 
-// Middleware para analizar cookies
+// Middleware para analizar cookies 
 app.use(cookieParser());
 
 // Middleware para servir archivos estáticos desde 'uploads'
@@ -50,11 +50,11 @@ app.get('/', (req, res) => {
 const server = http.createServer(app); // Usar la instancia de http.Server con Express
 const io = new Server(server, {
     cors: {
-        origin: ["http://localhost:5173", "https://frontend-auth-six.vercel.app", "https://admin-food-jah.vercel.app"],
-        methods: ["GET", "POST"],
+       origin: "*",
         credentials: true
     }
 });
+
 
 // Escuchar eventos de conexión de socket.io
 io.on('connection', (socket) => {

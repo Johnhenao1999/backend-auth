@@ -104,5 +104,7 @@ export const updateTask = async (req, res) => {
     if (!task) {
         return res.status(404).json({ message: "Task not found" })
     }
+    const io = req.app.get('socketio');
+    io.emit('taskUpdated', task);
     res.json(task)
 }
