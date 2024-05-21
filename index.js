@@ -8,12 +8,10 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import http from 'http'; // Importar http para crear un servidor
-import { Server } from 'socket.io'; // Importar Server de socket.io
 
 // Configurar dotenv para cargar las variables de entorno
 dotenv.config();
-
+ 
 // Obtener el nombre del archivo y el directorio actual
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -23,14 +21,16 @@ const app = express();
 
 // Configurar CORS
 app.use(cors({
-    origin: "*",
+    origin: ["http://localhost:5173", "https://frontend-auth-six.vercel.app", "https://admin-food-jah.vercel.app"],
     credentials: true,
 }));
 
-// Middleware para analizar JSON
-app.use(express.json());
 
-// Middleware para analizar cookies 
+
+// Middleware para analizar JSON
+app.use(express.json()); 
+
+// Middleware para analizar cookies
 app.use(cookieParser());
 
 // Middleware para servir archivos estáticos desde 'uploads'
@@ -44,8 +44,8 @@ app.use("/api/v1/management", management);
 // Ruta raíz
 app.get('/', (req, res) => {
     res.send('Hello from Vercel!');
-});
-
+  });
+  
 
 // Función para conectar a la base de datos
 const connectDb = async () => {
@@ -61,7 +61,7 @@ const connectDb = async () => {
 // Iniciar la aplicación
 const startServer = async () => {
     await connectDb();
-    server.listen(3000, () => {
+    app.listen(3000, () => {
         console.log("Server on port 3000");
     });
 };
