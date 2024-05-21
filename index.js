@@ -51,6 +51,7 @@ const server = http.createServer(app); // Usar la instancia de http.Server con E
 const io = new Server(server, {
     cors: {
         origin: ["http://localhost:5173", "https://frontend-auth-six.vercel.app", "https://admin-food-jah.vercel.app"],
+        methods: ["GET", "POST"],
         credentials: true
     }
 });
