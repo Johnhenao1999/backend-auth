@@ -28,7 +28,7 @@ app.use(cors({
 }));
 
 // Middleware para analizar JSON
-app.use(express.json()); 
+app.use(express.json());
 
 // Middleware para analizar cookies 
 app.use(cookieParser());
@@ -50,18 +50,22 @@ app.get('/', (req, res) => {
 const server = http.createServer(app); // Usar la instancia de http.Server con Express
 const io = new Server(server, {
     cors: {
-       origin: "*",
+        origin: "*",
         credentials: true
     }
 });
 
 
 // Escuchar eventos de conexión de socket.io
-io.on('connection', (socket) => {
-    console.log('Nuevo cliente conectado');
-    
-    socket.on('disconnect', () => {
-        console.log('Cliente desconectado');
+io.on('connection', function (socket) {
+    console.log('connected socket!');
+
+    socket.on('greet', function (data) {
+        console.log(data);
+        socket.emit('respond', { hello: 'Hey, Mr.Client!' });
+    });
+    socket.on('disconnect', function () {
+        console.log('Socket disconnected');
     });
 });
 
