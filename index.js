@@ -28,7 +28,7 @@ app.use(cors({
 }));
 
 // Middleware para analizar JSON
-app.use(express.json()); 
+app.use(express.json());
 
 // Middleware para analizar cookies 
 app.use(cookieParser());
