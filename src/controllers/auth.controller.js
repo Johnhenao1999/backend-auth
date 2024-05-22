@@ -21,18 +21,7 @@ export const register = async (req, res) => {
         })
         const userSaved = await newUser.save();
         const token = await createAccessToken({ id: userSaved._id });
-        res.cookie('token', token, {
-            sameSite: 'None',
-            secure: true,
-            httpOnly: true
-        });
-        res.json({
-            id: userSaved._id,
-            username: userSaved.username,
-            email: userSaved.email,
-            createdAt: userSaved.createdAt,
-            updateAt: userSaved.updatedAt
-        })
+        res.json({ token });
     } catch (error) {
         res.status(500).json({ message: error.message })
     }
