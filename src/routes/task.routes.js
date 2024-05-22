@@ -4,7 +4,7 @@ import { getTasks, getTask,createTask,updateTask,deleteTask} from '../controller
 
 const router = Router()
 
-router.get('/salchipapas', authRequired, getTasks)
+router.get('/salchipapas', getTasks)
 router.get('/salchipapas/:id', authRequired, getTask)
 router.post('/salchipapas', authRequired, createTask)
 router.delete('/salchipapas/:id', authRequired, deleteTask)
