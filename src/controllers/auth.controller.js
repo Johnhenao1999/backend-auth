@@ -39,35 +39,20 @@ export const register = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-
-    const { email, password } = req.body
+    const { email, password } = req.body;
 
     try {
-
         const userFound = await User.findOne({ email });
         if (!userFound) return res.status(400).json({ message: "User not found" });
 
         const isMatch = await bcrypt.compare(password, userFound.password);
-        if (!isMatch) return res.status(400).json(["Incorrect password"])
-
+        if (!isMatch) return res.status(400).json(["Incorrect password"]);
 
         const token = await createAccessToken({ id: userFound._id });
-        res.cookie('token', token, {
-            sameSite: 'None',
-            secure: true,
-            httpOnly: true
-        });
-        res.json({
-            id: userFound._id,
-            username: userFound.username,
-            email: userFound.email,
-            createdAt: userFound.createdAt,
-            updateAt: userFound.updatedAt
-        })
+        res.json({ token });
     } catch (error) {
-        res.status(500).json({ message: error.message })
+        res.status(500).json({ message: error.message });
     }
-
 }
 
 export const logout = (req, res) => {
@@ -92,32 +77,33 @@ export const profile = async (req, res) => {
 }
 
 export const verifyToken = async (req, res) => {
-    const cookieHeader = req.headers.cookie;
-    const cookiePairs = cookieHeader.split(';').map(pair => pair.trim());
-    let token;
+    const authHeader = req.headers.authorization;
 
-    for (const pair of cookiePairs) {
-        if (pair.startsWith('token=')) {
-            token = pair.substring('token='.length);
-            break;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ message: "No se encontró el token de autorización, autorización denegada" });
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    jwt.verify(token, TOKEN_SECRET, async (err, decodedToken) => {
+        if (err) {
+            return res.status(401).json({ message: "Token inválido" });
         }
-    }
 
-    if (!token) {
-        return res.status(401).json({ message: "No se encontró el token, autorización denegada" });
-    }
+        try {
+            const userFound = await User.findById(decodedToken.id);
+            if (!userFound) {
+                return res.status(401).json({ message: "Usuario no encontrado" });
+            }
 
-    jwt.verify(token, TOKEN_SECRET, async (err, user) => {
-        if (err) return res.status(401).json({ message: "Unauthorized" });
-
-        const userFound = await User.findById(user.id);
-        if (!userFound) return res.status(401).json({ message: "Unauthorized" });
-
-        return res.json({
-            id: userFound._id,
-            username: userFound.username,
-            email: userFound.email,
-        })
-    })
-
-}
+            return res.json({
+                id: userFound._id,
+                username: userFound.username,
+                email: userFound.email,
+            });
+        } catch (error) {
+            console.error("Error al buscar el usuario:", error);
+            return res.status(500).json({ message: "Error interno del servidor" });
+        }
+    });
+};
